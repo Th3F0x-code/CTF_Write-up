@@ -1,0 +1,5 @@
+break main
+stepi
+call (int)decrypt_flag(4144667480)
+call (int)print_flag($1) or call (int)print_flag()
+
