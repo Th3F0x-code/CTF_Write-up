@@ -1,6 +1,0 @@
-CyberChallenge.IT - Gara locale
-piattaforma: jeopardy.cyberchallenge.it (in vpn)
-orario: 08/06/2020 - 10:00 - 17:00
-username: alessio.ciccola@gmail.com
-password: vdWV6eC6YBz5A56f
-Discord: https://discord.gg/G5KaRMq
