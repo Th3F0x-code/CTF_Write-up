@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
-from itertools import product
-import string
 import base64
+import string
 import time
+from itertools import product
 
 m = "See you later in the city center"
 c = "QSldSTQ7HkpIJj9cQBY3VUhbQ01HXD9VRBVYSkE6UWRQS0NHRVE3VUQrTDE="

@@ -9,10 +9,11 @@ c = [4241158327675851879, 4241158327675851879, 5354489610922786464, 455073815838
      3685077408869721674]
 
 
+# function used to find the prime numbers (p,q)
 def print_divisors(number):
-    for i in range(1, int(number ** 0.5)):
-        if number % i == 0:
-            print(i)
+    for _ in range(1, int(number ** 0.5)):
+        if number % _ == 0:
+            print(_)
 
 
 p = 2357345743
@@ -20,5 +21,5 @@ q = 2368334581
 tot = (p - 1) * (q - 1)
 d = pow(e, -1, tot)
 for i in range(len(c)):
-    m = ''.join(chr(pow(el,d,n)) for el in c)
-print("Flag: "+ m)
+    m = ''.join(chr(pow(el, d, n)) for el in c)
+print("Flag: " + m)

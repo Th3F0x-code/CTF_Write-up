@@ -1,5 +1,6 @@
-from pwn import *
 from binascii import hexlify
+
+from pwn import *
 
 
 def level_1(p, q):
@@ -33,7 +34,9 @@ def level_5(c, d, n):
     return str(m)
 
 
-p = remote("149.202.200.158", 7010)
+HOST = "rsa.challs.cyberchallenge.it"
+PORT = 7010
+p = remote(HOST, PORT)
 
 p.recvuntil("p = ")
 x = int(p.recvline().strip())
@@ -41,8 +44,7 @@ print("p = " + str(x))
 p.recvuntil("q = ")
 y = int(p.recvline().strip())
 print("q = " + str(y))
-p.recvuntil("n = ?\n")
-p.sendline(level_1(x, y))
+p.sendlineafter("n = ?\n", level_1(x, y))
 print("n = " + level_1(x, y))
 
 print(p.recvline().strip())
@@ -50,10 +52,8 @@ print(p.recvline().strip())
 
 p.recvuntil("message = ")
 t = p.recvline().strip()
-
-p.recvuntil("m = ?\n")
 print("m = %d " % int(level_2(t.decode("ascii"))))
-p.sendline(level_2(t.decode("ascii")))
+p.sendlineafter("m = ?\n", level_2(t.decode("ascii")))
 
 print(p.recvline().strip())
 print(p.recvline().strip())
@@ -74,10 +74,8 @@ p.recvuntil("e = ")
 e = int(p.recvline().strip())
 print("e = %d" % e)
 
-p.recvuntil("c = ?\n")
 print("c = %d" % int(level_3(b, c, m, e)))
-p.sendline(level_3(b, c, m, e))
-
+p.sendlineafter("c = ?\n", level_3(b, c, m, e))
 print(p.recvline().strip())
 print(p.recvline().strip())
 
@@ -93,17 +91,13 @@ p.recvuntil("e = ")
 y = int(p.recvline().strip())
 print("e = %d" % y)
 
-p.recvuntil("tot(n) = ?\n")
 print("tot(n) = %d" % int(level_4(v, w)))
-p.sendline(level_4(v, w))
+p.sendlineafter("tot(n) = ?\n", level_4(v, w))
 
 print(p.recvline().strip())
 
-
-p.recvuntil("d = ?\n")
 print("d = %d" % int(level_4_2(y, int(level_4(v, w)))))
-p.sendline(level_4_2(y, int(level_4(v, w))))
-
+p.sendlineafter("d = ?\n", level_4_2(y, int(level_4(v, w))))
 print(p.recvline().strip())
 print(p.recvline().strip())
 
@@ -123,8 +117,7 @@ p.recvuntil("c = ")
 o = int(p.recvline().strip())
 print("c = %d" % o)
 
-p.recvuntil("m = ?\n")
 print("m = %d" % int(level_5(o, int(level_4_2(i, int(level_4(z, k)))), int(level_1(z, k)))))
-p.sendline(level_5(o, int(level_4_2(i, int(level_4(z, k)))), int(level_1(z, k))))
+p.sendlineafter("m = ?\n", level_5(o, int(level_4_2(i, int(level_4(z, k)))), int(level_1(z, k))))
 p.recvuntil("Great! Here's your flag:\n")
-print("flag: "+ p.recvline().decode())
+print("flag: " + p.recvline().decode())

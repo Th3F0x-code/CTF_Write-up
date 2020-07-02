@@ -1,6 +1,4 @@
-#!/usr/bin/python3
 from string import printable
-
 from pwn import *
 
 p = remote("149.202.200.158", 7000)
