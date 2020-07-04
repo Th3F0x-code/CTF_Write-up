@@ -25,7 +25,8 @@ Xk59KNlNgh6612s8t68CQQC54eVLoso+W7vM/G9110SZvWtm2vC7maJbbz+6d3px
 nV6mjxmR2638eKLgQLJGw3wFX3SqWYBYU0+kM1b2wOMl
 -----END RSA PRIVATE KEY-----
 ```
-\n
+
+
 **2) Ricuperiamo la chiave pubblica si Santa.**
 Hello! This is Santa server!
 My public key is:
@@ -38,6 +39,7 @@ kK95AfPn2q723BoufQIDAQAB
 -----END PUBLIC KEY-----
 ```
 
+
 **3) Io (Alice) mando a Bob un messaggio 'Alice', concatenato con la mia chiave pubblica, S*Ks, Bob risponde:**
 Hello Alice! This is Bob.
 
@@ -47,13 +49,15 @@ Encrypted Session Key:
 Encrypted Credentials:
 `dS9sbWozeWk4SnZuSElYQXFlbHU3UT09`
 
+
 **3) Decifriamo 'Encrypted Session Key' con la mia chiave privata, essendo stato cifrato con la mia chiave pubblica ho il permesso di farlo ed ottengo:**
 Plaintext: `tz8sTOsZTTXuMnZy` -> Chiave simmetrica.
+
 
 **4) Con la chiave simmetrica trovata nel passo (3) decifro 'Encrypted Credentials' ed ottengo:**
 Plaintext: `Bob Donner-2019` -> Significa che ho l'user con cui si autentica Bob.
 
+
 **5) Cifro la chiave simmetrica del punto (3) con la chiave pubblica di Santa del punto (2), e concateno 'Encrypted Credentials' fancendomi credere Bob dalla sua credenziale e dal possesso della chiave simmetrica, dato che la flag viene mandata solo a lui, cosi ottengo:**
 Reply: `U0hLZ3dQdVV6Q01iMzRQR1FoUGNnay9wL21BOEZwYmZRaEhrYnlTQm5Yamx3UHQxSTBWVjhNM3FsZHo3YmRzYQ==`
 Decifro con la chiave simmetrica del punto (3) ed ho -> `CCIT{C0ngr4tz_y0u_l34rn_k3y_3xch4ng3!}`
- 
