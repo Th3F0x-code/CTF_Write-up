@@ -2,7 +2,9 @@ from pwn import *
 from binascii import *
 from Crypto.Util.number import inverse
 
-r = remote('149.202.200.158', 7010)
+HOST = "rsa.challs.cyberchallenge.it"
+PORT = 7010
+r = remote(HOST, PORT)
 
 
 # Level 1
