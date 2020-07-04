@@ -7,10 +7,12 @@ Authentication Ticket: `a3FrdVNxNTZweDFWK05rM290YXhES3pPZFp2TkdkaVNGLzk2SUJ0cm9w
 
 
 **2) Decifriamo Encrypted Message con la chiave '192883939', il server ritorna:**
+
 `{K_A_TGS=873331, TGS=tgs1, Timestamp=2020:5:6:14:18:10}`
 
 
 **3) Mandiamo al server l'autentication ticket ricevuto in precedenza nel punto (1):**
+
 
 Authentication Ticket: `a3FrdVNxNTZweDFWK05rM290YXhES3pPZFp2TkdkaVNGLzk2SUJ0cm9wSkQrTS9MMWhrZjZXREdWdXdkdm1HcCtXOHkxQy95T29RcHBPWU54Tml5bVE9PQ==`
 
