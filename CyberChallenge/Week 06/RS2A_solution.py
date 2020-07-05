@@ -7,4 +7,4 @@ c = 4646642449734441795234716931873293337783178140295369476477414842493124786921
 
 mp.prec = 300  # set the mp precision to have a better precision for the root
 m = mp.root(c, e2)  # We can divide the cipher text for his exp to take his factor
-print("Flag: " + long_to_bytes(m).decode())
+print("Flag: " + long_to_bytes(m).decode()) # CCIT{t00_s3cur3_1s_n0t_s3cur3}
