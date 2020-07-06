@@ -1,3 +1,7 @@
 # CTF_Write-ups
 
-Benvenuto all'inferno **porcodio!**
+## Benvenuto nella terra di nessuno...
+
+Qui troverai cose che in pochi hanno il potere di comprendere...
+
+entra a tuo rischio e pericolo **coglione**
