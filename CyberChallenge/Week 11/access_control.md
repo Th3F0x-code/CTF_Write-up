@@ -24,7 +24,7 @@ CCIT{0fc0a412-4184-4c9d-af48-498f7bc713db}
 # Arbitrary Command Exec 2
 ```
 Si ragiona nello stesso modo, soltando con USER, se proviamo export USER=poop -> ./flag02 -> poop is cool.
-Ora serve solo concatenare piu istruzione ad USER con ';' export USER="poop; /bin/bash #" -> ./flag02 -> Ottengo la shell di flag02.
+Ora serve solo concatenare piu istruzioni ad USER con ';' export USER="poop; /bin/bash #" -> ./flag02 -> Ottengo la shell di flag02.
 CCIT{b5b43a28-962d-42ea-92b6-cefa552766a0}
 ```
 
