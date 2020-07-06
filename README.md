@@ -1,4 +1,11 @@
 # CTF_Write-ups
 
-C'erano una volta 4 giovani ragazzi che un bell giorno decisero di provare a scrivere un semplicissimo "Hello Word" in C e niente diventò una droga cià
+## Benvenuto nella terra di nessuno...
 
+Qui troverai cose che in pochi hanno il potere di comprendere...
+
+entra a tuo rischio e pericolo giovane avventuriero.
+
+Qui potrai trovare moooooooltissime soluzioni a molti dei problemi del genere umano, però non fidarti troppo di noi **eh** potremmo provare a trollarti di tanto in tanto :)
+
+Però tralasciando quel piccolo dettaglio ti divertirai a leggere le nostre cagate, perciò **Buon divertimento and play CTF 
