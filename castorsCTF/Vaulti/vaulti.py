@@ -1,6 +1,9 @@
 import base64
-def xor(s1,s2):
-    return ''.join(chr(ord(a) ^ ord(b)) for a,b in zip(s1,s2))
+
+
+def xor(s1, s2):
+    return ''.join(chr(ord(a) ^ ord(b)) for a, b in zip(s1, s2))
+
 
 def checkpass():
     _input = input("Enter the password: ")
@@ -12,6 +15,7 @@ def checkpass():
     else:
         return False
 
+
 def main():
     global access
     access = checkpass()
@@ -19,6 +23,7 @@ def main():
         print("Yeah...okay. You got it!")
     else:
         print("Lol...try again...")
+
 
 access = False
 main()

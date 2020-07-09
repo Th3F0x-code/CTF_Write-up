@@ -1,4 +1,3 @@
-from libformatstr import FormatStr
 from pwn import *
 
 context.log_level = "debug"

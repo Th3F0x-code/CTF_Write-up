@@ -5,9 +5,9 @@ flag = ""
 initialize = 0
 for i in range(len(ct)):
     for val in range(256):
-        if (initialize ^ (val<<2)^val)&0xff == ct[i]:
-            flag += chr(val)  #the value val is found
-            initialize ^= (val<<2)^val  #to get the value of initialize for nex iteration of i
-            initialize >>=8 # initialize is [0-3] since (val<<2)^(val) is 10 bits, which is right shifted 8 bits each iteration
+        if (initialize ^ (val << 2) ^ val) & 0xff == ct[i]:
+            flag += chr(val)  # the value val is found
+            initialize ^= (val << 2) ^ val  # to get the value of initialize for nex iteration of i
+            initialize >>= 8  # initialize is [0-3] since (val<<2)^(val) is 10 bits, which is right shifted 8 bits each iteration
             break
 print(flag)

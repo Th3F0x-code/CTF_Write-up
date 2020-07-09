@@ -1,6 +1,7 @@
-from pwn import *
 import binascii
 import hashlib
+
+from pwn import *
 
 host = args.HOST or 'challs.m0lecon.it'
 port = int(args.PORT or 11000)
@@ -8,18 +9,21 @@ port = int(args.PORT or 11000)
 io = connect(host, port)
 secret = [-1 for i in range(128)]
 
+
 def apply_secret(c):
-    r = bin(c)[2:].rjust(128,'0')
+    r = bin(c)[2:].rjust(128, '0')
     return int(''.join([str(r[i]) for i in secret]), 2)
 
-def decrypt(s):  
+
+def decrypt(s):
     to_decrypt = int(s, 16)
     for ll in range(9):
-        x = apply_secret((to_decrypt >> (640-128)) & 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF)
+        x = apply_secret((to_decrypt >> (640 - 128)) & 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF)
         reappear = ((to_decrypt >> 640) ^ x) & 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         to_decrypt = to_decrypt << 128 | reappear
-        to_decrypt = to_decrypt % 2**(128*6)
+        to_decrypt = to_decrypt % 2 ** (128 * 6)
     return hex(to_decrypt)[2:]
+
 
 def solve(chall):
     io.recvuntil("2. Give me the decrypted challenge")
@@ -29,9 +33,11 @@ def solve(chall):
     io.sendline(ris)
     return io.recvuntil("\n")
 
+
 def pad32(s):
     m = 32 - len(s)
-    return "0"*m + s
+    return "0" * m + s
+
 
 def send_enc(val):
     io.recvuntil("2. Give me the decrypted challenge")
@@ -40,10 +46,11 @@ def send_enc(val):
     io.sendline(val)
     return io.recvuntil("\n")
 
+
 def attempt(e):
     val = [pad32(hex(es)[2:]) for es in e]
-    vals = int(send_enc("".join(val)),16)
-    
+    vals = int(send_enc("".join(val)), 16)
+
     ret = []
 
     for i in range(6):
@@ -51,9 +58,10 @@ def attempt(e):
         vals = vals >> 128
     return ret
 
-#PoW
+
+# PoW
 io.recvuntil("sha256sum ends in ")
-check = io.recvuntil(".",drop=True)
+check = io.recvuntil(".", drop=True)
 chk = ""
 for i in range(1000000000000):
     if hashlib.sha256(str(i).encode('ascii')).hexdigest()[-6:] == check:
@@ -65,27 +73,27 @@ print(chk)
 
 io.sendline(chk)
 
-#start challlenge
+# start challlenge
 print(io.recvuntil("Encrypted challenge (hex):\n"))
 chall = io.recvuntil("\n")
 
-#obtaining the secret permutation matrix
+# obtaining the secret permutation matrix
 for req in range(128):
     if req in secret:
         continue
-    val = 2**(127-req)
-    vals = attempt([0,0,0,val,0,0])
+    val = 2 ** (127 - req)
+    vals = attempt([0, 0, 0, val, 0, 0])
 
     old = req
-    #removing e2 from c5 = p**6 * e2 + e2
-    vals[5] = vals[5]^val
-    #compute the 6 permutations
+    # removing e2 from c5 = p**6 * e2 + e2
+    vals[5] = vals[5] ^ val
+    # compute the 6 permutations
     for i in range(6):
-        pos = 128-len(bin(vals[i])[2:])
+        pos = 128 - len(bin(vals[i])[2:])
         secret[pos] = old
         old = pos
 
-#decrypt and send
+# decrypt and send
 solve(chall)
 
 io.interactive()

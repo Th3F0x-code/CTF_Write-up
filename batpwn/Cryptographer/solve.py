@@ -1,9 +1,11 @@
 import base64
-from hashlib import md5
 import time
+from hashlib import md5
+
 
 def xor(data, key):
-        return bytearray(a^b for a, b in zip(*map(bytearray, [data, key])))
+    return bytearray(a ^ b for a, b in zip(*map(bytearray, [data, key])))
+
 
 timestamp_initial = int(time.time())
 with open('noob.txt', 'r') as ct_file:
@@ -23,5 +25,3 @@ for i in range(1000000):
         print(xorer)
 
 # batpwn{cryptography_is_beautiful_art}
-
-
