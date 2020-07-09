@@ -64,11 +64,11 @@ def multiply(P, n):
 
 
 def is_identity(g):
-    return (g[0] == 1 and g[1] == 0)
+    return g[0] == 1 and g[1] == 0
 
 
 def random_complex(p):
-    return (random.randint(0, p - 1), random.randint(0, p - 1))
+    return random.randint(0, p - 1), random.randint(0, p - 1)
 
 
 def gen_nth_order(p, order, tar_order):

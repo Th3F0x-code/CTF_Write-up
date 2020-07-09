@@ -1,4 +1,5 @@
 from pwn import *
+from ropgadget.loaders.universal import xrange
 
 context.log_level = "debug"
 exe = ELF("/home/alessio/Scrivania/tools/CTFs/M0leCon/fakev/fakev")
