@@ -8,11 +8,11 @@ def get_plain(ct, key):
         c = ord(ct[i]) - 97
         k = ord(key[i]) - 97
         if c > k:
-            plain += chr(c-k+97)
+            plain += chr(c - k + 97)
         elif c < k:
-            plain += chr(26-k+c+97)
+            plain += chr(26 - k + c + 97)
         else:
-            plain += chr(c+97)
+            plain += chr(c + 97)
     return plain
 
 
@@ -46,4 +46,4 @@ for key in possible_keys:
     plain = get_plain(ct, key)
     print(plain)
 
-#FLAG --> flag{i_guess_pseudo_keys_are_pseudo_secure}
+# FLAG --> flag{i_guess_pseudo_keys_are_pseudo_secure}
