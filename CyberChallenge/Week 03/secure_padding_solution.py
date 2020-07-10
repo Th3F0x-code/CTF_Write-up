@@ -16,10 +16,10 @@ def encrypt(msg):
 
 flag = ""
 while "}" not in flag:
-    for c in printable[:-6]:
-        msg = "A" * (31 - len(flag)) + flag + c + "A" * (31 - len(flag))
+    for _ in printable[:-6]:
+        msg = "A" * (31 - len(flag)) + flag + _ + "A" * (31 - len(flag))
         blocks = encrypt(msg)
         if blocks[1] == blocks[3]:
-            flag = flag + c
+            flag = flag + _
             print(flag)
             break

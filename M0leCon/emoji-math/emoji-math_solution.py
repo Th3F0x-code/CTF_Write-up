@@ -80,3 +80,5 @@ while True:
                    range(len(setanum[0])))
     clientsocket.send((ans + "\n").encode())
     print(readln(clientsocket).decode("utf-8"))
+
+# FLAG --> ptm{V3ct0r_m4th_w1th_3m0ji1_i5_fun}

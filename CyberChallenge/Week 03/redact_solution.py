@@ -1,7 +1,6 @@
 #!/usr/bin/env python2.7
 
-import sys
-from binascii import hexlify, unhexlify
+from binascii import hexlify
 from string import printable
 
 from Crypto.Cipher import AES
@@ -72,3 +71,5 @@ iv = xor(p0_xor_iv, msg[:16])
 for el in iv:
     flag += chr(el)
 print("Flag: CCIT{" + flag + "}")
+
+# FLAG --> CCIT{P4rt14l_1nf0_b4d}

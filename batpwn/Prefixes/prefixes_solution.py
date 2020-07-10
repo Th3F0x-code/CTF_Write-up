@@ -11,3 +11,5 @@ for i in range(len(ct)):
             initialize >>= 8  # initialize is [0-3] since (val<<2)^(val) is 10 bits, which is right shifted 8 bits each iteration
             break
 print(flag)
+
+# FLAG --> batpwn{Ch00se_y0uR_pR3fix_w1selY}

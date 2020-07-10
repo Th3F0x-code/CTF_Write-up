@@ -40,3 +40,5 @@ for i in range(100):
     r.sendline(str(eval(" ".join(query))))
 
 r.interactive()
+
+# FLAG --> castorsCTF(n00b_pyth0n_4r17hm3t1c5}

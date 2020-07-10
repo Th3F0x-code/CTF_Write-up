@@ -9,3 +9,5 @@ for i in range(10):
     r.sendline(str(a) + " " + str(b))
 r.interactive()
 r.close()
+
+# FLAG --> ptm{as_dumb_as_a_sanity_check}

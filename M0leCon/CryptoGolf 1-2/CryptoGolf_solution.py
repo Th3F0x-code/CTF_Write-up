@@ -1,6 +1,3 @@
-import binascii
-import hashlib
-
 from pwn import *
 
 host = args.HOST or 'challs.m0lecon.it'
@@ -97,3 +94,7 @@ for req in range(128):
 solve(chall)
 
 io.interactive()
+
+# Good job! You did it in 30 requests
+# Level 1 completed: ptm{sometimes_encryption_can_be_as_bad_as_decryption_ecdb556edcffd}
+# Level 2 completed: ptm{you_are_a_master_of_oracles_ecdcbceda557842aa}

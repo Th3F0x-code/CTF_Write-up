@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 from websocket import create_connection
 
 # create a connection to the server
@@ -11,3 +12,5 @@ while True:  # start an infinite loop
     dt = datetime.strptime(a, "%Y-%m-%d %H:%M:%S")  # try to format the date into this form
     # send the formatted date to the server and if it is wrong we have found the flag
     ws.send(str(int(dt.replace(tzinfo=timezone.utc).timestamp())))
+
+# FLAG --> batpwn{1590300735000}

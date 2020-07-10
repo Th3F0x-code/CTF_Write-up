@@ -1,5 +1,4 @@
 import socket
-import sys
 import time
 
 
@@ -41,3 +40,5 @@ if __name__ == '__main__':
         maximum = max(res, key=lambda x: x[0])[1]
         keysofar = keysofar + maximum
         print(keysofar)
+
+# FLAG -->  CCIT{s1d3_ch4nn3ls_r_c00l

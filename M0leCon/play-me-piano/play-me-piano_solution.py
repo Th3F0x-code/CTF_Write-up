@@ -32,3 +32,5 @@ sol = ["c", "c", "g", "g", "a", "a", "g", "-", "f", "f", "e", "e", "d", "d", "c"
 for note in sol:
     review(ord(note))
     print(chr(prev), end='')
+
+# FLAG --> ptm{7w1nKl3_7W1NkL3_My_w3b_574r_w3lL_Pl4y3d_hKr}

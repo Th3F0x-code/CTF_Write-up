@@ -20,3 +20,5 @@ for x in range(80):
         break
 # print flag
 print(r.recv(1024))
+
+# FLAG --> castorsCTF{c0mmun1ng_w17h_7h3_f14g_g0d5}

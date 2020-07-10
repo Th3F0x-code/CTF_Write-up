@@ -41,3 +41,5 @@ for i in range(len(c)):
         if c2 == c[i]:  # If it correspond we add it to the string "flag"
             flag = flag + a
 print("Flag: " + flag)
+
+# FLAG --> CCIT{d3crypt_0r_3ncrypt_m3?}

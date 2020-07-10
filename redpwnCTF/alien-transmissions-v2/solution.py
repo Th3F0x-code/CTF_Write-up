@@ -63,3 +63,5 @@ print(out)
 print([o[1].as_long() for o in out])
 
 print("flag{" + "".join([chr(o[1].as_long()) for o in out]) + "}")
+
+# FLAG --> flag{h3r3'5_th3_f1r5t_h4lf_th3_53c0nd_15_th15}

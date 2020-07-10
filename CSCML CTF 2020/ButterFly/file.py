@@ -2,6 +2,7 @@ NULL = '\x00'
 
 PASSWORD = 'AAAAAAAAAAAAAAA'
 
+
 def normal(x: str):
     try:
         return x.encode('ascii', errors='surrogateescape').decode('utf-8')
@@ -9,17 +10,20 @@ def normal(x: str):
         pass
     return x
 
+
 def main():
     buffer = create_buf(PASSWORD)
     if authenticate(buffer):
         print('THE SECRET FLAG IS: CENSORED')
 
+
 def create_buf(password):
     password = password + NULL
-    buffer = Buffer(2*len(password))
+    buffer = Buffer(2 * len(password))
     pass_buffer = Buffer.from_string(password)
     buffer.write_string(pass_buffer, len(password))
     return buffer
+
 
 def authenticate(buffer):
     print('Enter password:', end=' ')
@@ -44,10 +48,11 @@ def authenticate(buffer):
         print('SUCCESS!')
         return True
 
+
 class Buffer(object):
     def __init__(self, length):
         self.buf = [NULL] * length
-    
+
     def write_string(self, buffer, start):
         i = 0
         while i < len(buffer.buf) and buffer.buf[i] != NULL:
@@ -62,6 +67,7 @@ class Buffer(object):
             buffer.buf[i] = s[i]
             i += 1
         return buffer
+
 
 if __name__ == '__main__':
     main()

@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from Crypto.Util.number import inverse, long_to_bytes, GCD
 
 prime_factors = [
@@ -25,4 +23,6 @@ for number in prime_factors:
 d = inverse(e, lamda)
 m = pow(C, d, n)
 
-print(long_to_bytes(m))
+print("Flag --> " + long_to_bytes(m).decode("utf-8"))
+
+# FLAG --> flag{pr1m3_pr0x1m1ty_c4n_b3_v3ry_d4ng3r0u5}

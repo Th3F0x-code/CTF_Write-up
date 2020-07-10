@@ -1,4 +1,5 @@
 from sys import exit
+
 from Crypto.Util.number import long_to_bytes
 from gmpy2 import *
 from pwn import *
@@ -111,3 +112,5 @@ p_decrypt = int(r.recvline().decode()[0:-1])
 flags = p_decrypt * flag_
 
 print('Flag:', long_to_bytes(pow(flags, 1, n)).decode())
+
+# FLAG --> CCIT{3ncrypt&d3crypt}

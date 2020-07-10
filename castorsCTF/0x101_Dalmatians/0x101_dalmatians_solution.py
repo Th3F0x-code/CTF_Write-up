@@ -12,3 +12,5 @@ i = 0  # initialize a counter
 for x in output:
     print(chr(pow(primes[i], -1, 257) * x % 257), end='')
     i += 1
+
+# FLAG --> castorsCTF{1f_y0u_g07_th1s_w1th0u7_4ny_h1n7s_r3sp3c7}
