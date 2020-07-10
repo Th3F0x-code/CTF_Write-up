@@ -1,7 +1,0 @@
-#! /bin/bash
-
-set -euo pipefail
-
-avr-gcc $GCC_COMPILE_FLAGS $GCC_OPTIMIZATION_FLAG $INC_PATH -c menu.c
-
-echo "$(pwd)/menu.o"
