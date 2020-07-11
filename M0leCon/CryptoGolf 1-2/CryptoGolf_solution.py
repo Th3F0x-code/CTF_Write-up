@@ -95,6 +95,5 @@ solve(chall)
 
 io.interactive()
 
-# Good job! You did it in 30 requests
-# Level 1 completed: ptm{sometimes_encryption_can_be_as_bad_as_decryption_ecdb556edcffd}
-# Level 2 completed: ptm{you_are_a_master_of_oracles_ecdcbceda557842aa}
+# Level 1 --> ptm{sometimes_encryption_can_be_as_bad_as_decryption_ecdb556edcffd}
+# Level 2 --> ptm{you_are_a_master_of_oracles_ecdcbceda557842aa}

