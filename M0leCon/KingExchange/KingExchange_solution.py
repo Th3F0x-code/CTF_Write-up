@@ -46,11 +46,11 @@ def discrete_log(g, A, p, order, factors):
 
 
 def is_equal(g, A):
-    return (g[0] == A[0] and g[1] == A[1])
+    return g[0] == A[0] and g[1] == A[1]
 
 
 def add_points(P, Q):
-    return ((P[0] * Q[0] - P[1] * Q[1]) % p, (P[0] * Q[1] + P[1] * Q[0]) % p)
+    return (P[0] * Q[0] - P[1] * Q[1]) % p, (P[0] * Q[1] + P[1] * Q[0]) % p
 
 
 def multiply(P, n):
@@ -109,6 +109,6 @@ shared = multiply(B, A_secret)[0]
 key = sha256(long_to_bytes(shared)).digest()
 aes = AES.new(key, AES.MODE_ECB)
 flag = aes.decrypt(bytes.fromhex(ct))
-print("\n[*] flag = ", flag)
+print("\n[*] flag --> ", flag.decode())
 
 # ptm{c1rcl3s_r_n0t_4s_53cur3_4s_ell1ps3s}

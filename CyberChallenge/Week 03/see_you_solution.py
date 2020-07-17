@@ -1,8 +1,5 @@
-#!/usr/bin/python3
-
 import base64
 import string
-import time
 from itertools import product
 
 m = "See you later in the city center"
@@ -28,8 +25,6 @@ def encrypt(clear, key):
     return str(base64.urlsafe_b64encode("".join(enc).encode('ascii')), 'ascii')
 
 
-start = time.time()
-
 print("Find all key.")
 # Riempio una lista con tutte le combinazioni possibili di lunghezza 4 che posso fare con le lettere a...z (aaaa, abbb, abca, ahca..).
 key_table = [''.join(_) for _ in product(string.ascii_lowercase, repeat=4)]
@@ -50,10 +45,6 @@ intersect = set(encrypt_table).intersection(set(decrypt_table))  # {'SEtUFW5VZBV
 # Vale lo stesso ragionamento per l'altra lista.
 for _in in intersect:
     # key_table[encrypt_table.index(_in)] -> ufou, key_table[decrypt_table.index(_in)] -> ndit.
-    print("Flag: CCIT{%s}" % (
-                key_table[encrypt_table.index(_in)] + key_table[decrypt_table.index(_in)]))  # CCIT{ufoundit}
-
-end = time.time()
-print(f"Tempo impiegato: {end - start} sec.")
+    print("Flag: CCIT{%s}" % (key_table[encrypt_table.index(_in)] + key_table[decrypt_table.index(_in)]))
 
 # FLAG --> CCIT{ufoundit}

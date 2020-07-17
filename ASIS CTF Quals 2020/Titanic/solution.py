@@ -1,10 +1,8 @@
-import binascii
-import hashlib
-import string
-
 from pwn import *
 
-r = remote('76.74.178.201', 8002)
+HOST = "76.74.178.201"
+PORT = 8002
+r = remote(HOST, PORT)
 
 # Receive and solve the PoW challenge
 challenge = r.recv().split()
@@ -12,8 +10,7 @@ algo = challenge[8].split("(")[0]
 suff = challenge[10]
 size = int(challenge[14])
 print(algo, suff, size)
-s = iters.mbruteforce(lambda x: getattr(hashlib, algo)(x).hexdigest().endswith(suff), string.printable + string.digits,
-                      size, 'fixed')
+s = iters.mbruteforce(lambda x: getattr(hashlib, algo)(x).hexdigest().endswith(suff), string.printable + string.digits, size, 'fixed')
 r.send(s + "\n")
 
 # Print the assignment

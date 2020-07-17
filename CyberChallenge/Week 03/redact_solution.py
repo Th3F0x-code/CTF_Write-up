@@ -1,5 +1,3 @@
-#!/usr/bin/env python2.7
-
 from binascii import hexlify
 from string import printable
 

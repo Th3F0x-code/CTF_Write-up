@@ -1,7 +1,5 @@
 from pwn import *
 
-# p = process
-# p = remote("0.0.0.0",9010)
 HOST = "challs.m0lecon.it"
 PORT = 9010
 p = remote(HOST, PORT)

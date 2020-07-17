@@ -10,28 +10,19 @@ R = 2 ** 768 - 1
 def binary_search(n, L, R):
     while L < R:
         x = (L + R) // 2
-
         p = x ** 2 - x + 1
         q = x ** 4 - x ** 3 + x ** 2 - x + 1
-
         if p * q < n:
             L = x + 1
-
         elif p * q > n:
             R = x - 1
-
         else:
             return x
-
     return -1
 
-
 x = binary_search(n, L, R)
-
 p = x ** 2 - x + 1
-
 q = x ** 4 - x ** 3 + x ** 2 - x + 1
-
 phi = (p - 1) * (q - 1)
 d = inverse(e, phi)
 

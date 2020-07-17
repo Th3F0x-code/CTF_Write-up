@@ -14,7 +14,7 @@ def netcat(hn, p, content):
 
     while True:
         data = sock.recv(1024)
-        if (not data):
+        if not data:
             break
         res += data.decode()
 
@@ -27,7 +27,7 @@ def netcat(hn, p, content):
 if __name__ == '__main__':
     charset = [chr(i) for i in range(33, 127)]
     keysofar = "CCIT{s1d"
-    host = "149.202.200.158"
+    host = "benchmark.challs.cyberchallenge.it"
     port = 7001
     res = []
     maximum = None
@@ -41,4 +41,4 @@ if __name__ == '__main__':
         keysofar = keysofar + maximum
         print(keysofar)
 
-# FLAG -->  CCIT{s1d3_ch4nn3ls_r_c00l
+# FLAG -->  CCIT{s1d3_ch4nn3ls_r_c00l}

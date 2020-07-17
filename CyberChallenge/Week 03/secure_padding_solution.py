@@ -1,7 +1,6 @@
-from string import printable
 from pwn import *
 
-p = remote("149.202.200.158", 7000)
+p = remote("padding.challs.cyberchallenge.it", 7000)
 
 
 def split(msg, BLOCK=32):
