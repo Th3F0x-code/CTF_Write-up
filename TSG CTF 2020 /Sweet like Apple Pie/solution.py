@@ -55,4 +55,5 @@ for k in cand:
         hx = '0' + hx
     print(hx)
     print(bytes.fromhex(hx))
+
 # FLAG --> TSGCTF{Tteugeopgo_Dara_Sweee-ee-ee-ee-eet_1ik3_4pple_Pie_Piez}
