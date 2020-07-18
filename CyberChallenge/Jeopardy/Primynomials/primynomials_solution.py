@@ -20,10 +20,13 @@ def binary_search(n, L, R):
             return x
     return -1
 
+
 x = binary_search(n, L, R)
 p = x ** 2 - x + 1
 q = x ** 4 - x ** 3 + x ** 2 - x + 1
 phi = (p - 1) * (q - 1)
 d = inverse(e, phi)
 
-print("Flag: " + long_to_bytes(pow(c, d, n)).decode())
+print("Flag --> " + long_to_bytes(pow(c, d, n)).decode())
+
+# FLAG --> CCIT{p0lyn0m14l_f4ct0r1z4t10n}
