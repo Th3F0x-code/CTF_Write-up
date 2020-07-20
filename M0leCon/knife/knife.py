@@ -3,7 +3,8 @@ from pwn import *
 HOST = "challs.m0lecon.it"
 PORT = 9010
 p = remote(HOST, PORT)
-elf = ELF("/home/alessio/Scrivania/tools/CTFs/M0leCon/knife/knife")
+
+elf = ELF("knife")
 
 
 def load(offset):
