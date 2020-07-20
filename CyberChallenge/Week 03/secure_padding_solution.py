@@ -1,3 +1,5 @@
+import string
+
 from pwn import *
 
 p = remote("padding.challs.cyberchallenge.it", 7000)
@@ -15,10 +17,12 @@ def encrypt(msg):
 
 flag = ""
 while "}" not in flag:
-    for _ in printable[:-6]:
+    for _ in string.printable[:-6]:
         msg = "A" * (31 - len(flag)) + flag + _ + "A" * (31 - len(flag))
         blocks = encrypt(msg)
         if blocks[1] == blocks[3]:
             flag = flag + _
-            print(flag)
             break
+print("Flag --> %s" % flag)
+
+# FLAG --> CCIT{r3m3mb3r_th3_3cb_p3ngu1n?}

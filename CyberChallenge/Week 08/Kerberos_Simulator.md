@@ -1,6 +1,6 @@
 # KERBEROS SIMULATOR
 
-**1) Apro un autenticazione con il serve, ricevo:**
+**1) Apro un autenticazione con il server, ricevo:**
 
 Encrypted Key Message: `bDNzTVVsdEI4cm9PNjJFeXltU3V6ejlPTFV0bkxCakdBMTlpT0cySWRGVkU2bmFVa2h0RGs5U2I4UDI0TEZJYzJzVFZTUVFXbFEvMzdldzl0ZllYUmc9PQ==`
 Authentication Ticket: `a3FrdVNxNTZweDFWK05rM290YXhES3pPZFp2TkdkaVNGLzk2SUJ0cm9wSkQrTS9MMWhrZjZXREdWdXdkdm1HcCtXOHkxQy95T29RcHBPWU54Tml5bVE9PQ==`
