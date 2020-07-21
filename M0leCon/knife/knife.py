@@ -1,10 +1,9 @@
 from pwn import *
 
+elf = ELF("knife")
 HOST = "challs.m0lecon.it"
 PORT = 9010
 p = remote(HOST, PORT)
-
-elf = ELF("knife")
 
 
 def load(offset):

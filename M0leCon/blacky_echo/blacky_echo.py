@@ -1,7 +1,6 @@
 from pwn import *
 
-context.log_level = "debug"
-exe = ELF("/home/alessio/Scrivania/tools/CTFs/M0leCon/blacky_echo/blacky_echo")
+exe = ELF("blacky_echo")
 context.binary = exe
 HOST = "challs.m0lecon.it"
 PORT = 9011

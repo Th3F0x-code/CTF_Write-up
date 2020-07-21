@@ -1,5 +1,7 @@
-break main
-stepi
-call (int)decrypt_flag(4144667480)
-call (int)print_flag($1) or call (int)print_flag()
+Run this command into GDB:
+
+1) break main
+2) stepi
+3) call (int)decrypt_flag(4144667480)
+4) call (int)print_flag($1) or call (int)print_flag()
 

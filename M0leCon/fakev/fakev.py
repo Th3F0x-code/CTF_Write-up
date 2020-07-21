@@ -1,8 +1,8 @@
 from pwn import *
 from ropgadget.loaders.universal import xrange
 
-exe = ELF("/home/alessio/Scrivania/tools/CTFs/M0leCon/fakev/fakev")
-libc = ELF("/home/alessio/Scrivania/tools/CTFs/M0leCon/fakev/libc.so.6")
+exe = ELF("fakev")
+libc = ELF("libc.so.6")
 context.binary = exe
 HOST = "challs.m0lecon.it"
 PORT = 9013
