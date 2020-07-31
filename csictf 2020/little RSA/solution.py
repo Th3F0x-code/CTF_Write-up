@@ -1,13 +1,20 @@
+import mod
+
 c = 32949
 n = 64741
 e = 42667
-p = 101
-q = 641
 
-phi = (p - 1) * (q - 1)
-d = inverse(e, phi)
+p = None
+for i in range(2, n):
+    if n % i == 0:
+        p = i
+        break
 
-m = pow(c, d, n)
-print(m)
-flag = long_to_bytes(m).decode()
-print(flag)
+q = n // p
+em = mod.Mod(e, (p - 1) * (q - 1))
+d = int(1 // em)
+cm = mod.Mod(c, n)
+ans = int(cm ** d)
+print(ans)
+
+# FLAG --> csictf{gr34t_m1nds_th1nk_4l1ke}
