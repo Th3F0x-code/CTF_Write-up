@@ -141,6 +141,7 @@ p.stream()
 # FLAG --> csictf{n0_5tr1ng5_@tt@ch3d}
 ```
 ### Smash
+A simple ret2libc exploit
 ```python
 from pwn import *
 
