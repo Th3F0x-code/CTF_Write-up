@@ -3,7 +3,9 @@ import string
 
 from pwn import remote
 
-r = remote("jh2i.com", 50026)
+HOST = "jh2i.com"
+PORT = 50026
+r = remote(HOST, PORT)
 
 flag = [''] + list('flag{') + ['?'] * 50
 

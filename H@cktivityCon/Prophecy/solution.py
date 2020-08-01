@@ -1,12 +1,14 @@
 from pwn import remote
 
+HOST = "jh2i.com"
+PORT = 50012
 numbers = [0] * 100
 
 i = 0
 
 while True:
     if i == 0:
-        r = remote("jh2i.com", 50012)
+        r = remote(HOST, PORT)
 
     try:
         re = r.recvuntil(">")

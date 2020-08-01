@@ -2,7 +2,9 @@ import hashlib
 
 from pwn import remote
 
-r = remote('jh2i.com', 50005)
+HOST = "jh2i.com"
+PORT = 50005
+r = remote(HOST, PORT)
 
 
 def match_sha1(n):
