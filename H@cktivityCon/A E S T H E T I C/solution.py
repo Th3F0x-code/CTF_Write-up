@@ -1,4 +1,3 @@
-import re
 from string import ascii_lowercase, digits
 
 from pwn import *
