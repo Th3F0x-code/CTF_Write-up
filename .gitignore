@@ -1,4 +1,5 @@
 .idea/
+venv/
 HackTheBox/Th3F0xcode.ovpn
 CyberChallenge/vpn
 CyberChallenge/decrypt.sh
