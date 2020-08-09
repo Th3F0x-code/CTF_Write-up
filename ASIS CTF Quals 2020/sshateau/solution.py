@@ -1,4 +1,5 @@
 from z3 import *
+from z3.z3 import ZeroExt, Solver, BitVec
 
 s = Solver()
 
