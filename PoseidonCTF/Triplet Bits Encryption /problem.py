@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 
 from hashlib import sha256
-from Crypto.Util.number import long_to_bytes, bytes_to_long
+
 from Crypto.Random import get_random_bytes
+from Crypto.Util.number import bytes_to_long
 from flag import flag
 
+
 def mixkeybit(keybit1, keybit2, keybit3):
-    return int(keybit1 or (not(keybit2) and keybit3))
+    return int(keybit1 or (not (keybit2) and keybit3))
+
 
 key1 = get_random_bytes(32)
 key2 = get_random_bytes(32)
