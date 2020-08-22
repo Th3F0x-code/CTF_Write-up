@@ -11,7 +11,7 @@ def jsc(code):
         path = f'/tmp/exploit-{random.randrange(0, 1 << 128):032x}.js'
         with open(path, "w") as f:
             f.write(code)
-        subprocess.run(["./jsc", path], timeout=10)
+        subprocess.run(["./debug/jsc", path], timeout=10)
     except Exception as e:
         print("[-] Execution Error", flush=True)
         print(e, flush=True)
