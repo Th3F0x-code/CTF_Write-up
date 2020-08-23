@@ -1,9 +1,7 @@
 import os
+
 os.environ["PWNLIB_NOTERM"] = "True"
 
-import hashlib
-import string
-import random
 from pwn import *
 
 IP = "76.74.178.201"
@@ -40,11 +38,11 @@ scale = Integer(scale_data[3])
 p = px + 1
 assert p.is_prime()
 a = -1
-b = (py^2 - px^3 - a*px) % p
-E = EllipticCurve(GF(p), [a,b])
-P = E(px,py)
+b = (py ^ 2 - px ^ 3 - a * px) % p
+E = EllipticCurve(GF(p), [a, b])
+P = E(px, py)
 
-Q = P*scale
+Q = P * scale
 
 """
 For some reason sending str(Q.xy()) to the server caused an error, so I 
