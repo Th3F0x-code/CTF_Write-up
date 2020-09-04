@@ -50,5 +50,5 @@ Fare un curl di url -> ispezione immagine di camo -> mettere \ dopo = e & ed app
 
 
 ## Not a Bug. It's a Feature
-Se si vede il sorgente la falg si trova su app.py, ma possiamo accedere solo a static dal file .conf, che è un alias.
+Se si vede il sorgente la flag si trova su app.py, ma possiamo accedere solo a static dal file .conf, che è un alias.
 Se faccioamo static/../app.py (cercando di retrocedere di una cartella) non va, con static../app.py appare la flag `CCIT{put_4_sl4sh_1n_th0s3_ali4s3s!}`.
