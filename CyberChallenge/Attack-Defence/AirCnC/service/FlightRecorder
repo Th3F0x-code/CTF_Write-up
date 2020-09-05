@@ -1,0 +1,396 @@
+#!/usr/bin/env python3
+import argparse
+import base64
+import copy
+import errno
+import glob
+import json
+import os
+import subprocess
+import threading
+import time
+import traceback
+
+import pymongo
+import queue
+import yaml
+from cryptography.hazmat.primitives.asymmetric import ed25519
+
+REQUEST_TYPES = {
+    'SENSOR': ('position', 'core_load', 'memory', 'disk'),
+    'FLIGHT': ('uptime', 'duration', 'ontime', 'departure', 'arrival', 'carrier'),
+    'TOWER': ('ping', 'check_auth', 'auth', 'get_trip'),
+    'CARRIER': ('read', 'get_backup', 'trip'),
+}
+
+
+def connect(host, port, username, password):
+    return pymongo.MongoClient(
+        host=host, port=port, username=username, password=password, authMechanism='SCRAM-SHA-256'
+    )
+
+
+def mkdir(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
+
+
+def load_config(path):
+    with open(path) as conf:
+        return yaml.safe_load(conf)
+
+
+def store_local(config, request=None, response=None):
+    # store requests & responses (also) locally to guarantee high redundancy and non-repudiability
+    data = copy.deepcopy(request or response)
+    for key in data:
+        if type(data[key]) == bytes:
+            data[key] = base64.b64encode(data[key]).decode()
+    content = json.dumps(data)
+    if len(content) >= 10240:
+        return
+    with open(
+        os.path.join(
+            config['FlightRecorder']['local_storage']['path'],
+            'request' if request else 'response',
+            data['code'],
+            data['cmd'],
+            data['request_id'],
+        ),
+        'x',
+    ) as out:
+        out.write(content)
+
+
+def get_local(config, path, fname='*'):
+    files = glob.glob(os.path.join(config['FlightRecorder']['local_storage']['path'], os.path.join(*path), fname))
+    for file in sorted(files, key=os.path.getctime, reverse=True):
+        with open(file, 'r') as f:
+            try:
+                yield json.load(f)
+            except json.decoder.JSONDecodeError:
+                pass
+            except FileNotFoundError:
+                pass
+
+
+def get_uptime(path):
+    with open(path) as f:
+        uptime = f.read()
+    try:
+        uptime = float(uptime.split()[0]) / 3600
+    except:
+        utime = '#ERR'
+    return uptime
+
+
+def get_trip(config):
+    for trip in get_local(config, ['request', 'CARRIER', REQUEST_TYPES['CARRIER'][2]]):
+        try:
+            return trip['departure'], trip['arrival']
+        except:
+            pass
+    return None, None
+
+
+def request_rcv_thread(config, client, exit_event, request_queue):
+    while not exit_event.is_set():
+        try:
+            with client[config['FlightRecorder']['registration']]['requests'].watch(
+                [{'$match': {'operationType': 'insert'}}]
+            ) as stream:
+                for change in stream:
+                    try:
+                        request = change['fullDocument']
+                        request.pop('_id')
+                        request_queue.put(request)
+                    except:
+                        traceback.print_exc()
+                    if exit_event.is_set():
+                        return
+        except pymongo.errors.PyMongoError:
+            traceback.print_exc()
+        exit_event.wait(1)
+
+
+def response_snd_thread(config, client, exit_event, response_queue):
+    flight = config['FlightRecorder']['registration']
+    while not exit_event.is_set():
+        try:
+            request, response = response_queue.get()
+            response['response_from'] = flight
+            for key in ('request_id', 'code', 'cmd'):
+                response[key] = request[key]
+            client[request.get('response_to', response.get('request_from', flight))]['responses'].insert_one(
+                copy.deepcopy(response)
+            )
+            store_local(config, response=response)
+            if config['CnCTower']['debug'] or request.get('debug', None):
+                s_request, s_response = str(request), str(response)
+                if len(s_request) + len(s_response) <= 1024:
+                    print('request: {:s} - response: {:s}'.format(s_request, s_response))
+                    client['tower']['debug_log'].insert_one(
+                        {'request': request, 'response': response, 'source': flight}
+                    )
+        except:
+            traceback.print_exc()
+
+
+def store_backup_thread(config, exit_event):
+    # last night Michael deleted some local data, I guess we also need some sort of backup
+    while not exit_event.is_set():
+        try:
+            subprocess.check_call(
+                config['FlightRecorder']['backup']['command'].format(
+                    source=config['FlightRecorder']['local_storage']['path'],
+                    dest=config['FlightRecorder']['backup']['name'],
+                ),
+                shell=True,
+            )
+        except:
+            traceback.print_exc()
+        exit_event.wait(config['FlightRecorder']['backup']['interval'])
+
+
+def storage_cleaner_thread(config, exit_event):
+    max_items = config['FlightRecorder']['local_storage']['max_items']
+    console_log = config['FlightRecorder']['local_storage']['console_log']
+    while not exit_event.is_set():
+        for _type in ('request', 'response'):
+            for code in REQUEST_TYPES:
+                for cmd in REQUEST_TYPES[code]:
+                    try:
+                        path = os.path.join(config['FlightRecorder']['local_storage']['path'], _type, code, cmd)
+                        files = sorted((os.path.join(path, f) for f in next(os.walk(path))[2]), key=os.path.getctime)
+                        while len(files) > max_items:
+                            file = files.pop()
+                            os.unlink(file)
+                            if console_log:
+                                print('Cleaning up "{:s}"'.format(file))
+                    except:
+                        traceback.print_exc()
+        exit_event.wait(config['FlightRecorder']['local_storage']['interval'])
+
+
+def check_tower_code(config, request):
+    # Control Tower must provide a valid security code, let's check it
+    try:
+        return request['tower_auth_code'] in config['CnCTower']['tower_security_code']
+    except:
+        traceback.print_exc()
+
+
+def check_carrier_signature(config, client, request):
+    # check requests signature using the public key of our carrier
+    try:
+        public_bytes = next(
+            client['carriers'][config['FlightRecorder']['carrier']].find({'public_key': {'$exists': True}})
+        )['public_key']
+        public_key = ed25519.Ed25519PublicKey.from_public_bytes(public_bytes)
+        message = json.dumps(
+            dict((key, request[key]) for key in ('request_id', 'request_for')), sort_keys=True
+        ).encode()
+        return public_key.verify(request['signature'], message)
+    except:
+        traceback.print_exc()
+
+
+def sensor_handler(config, request, response_queue):
+    sensor = request.get('cmd', None)
+    if 'history' in request:
+        items = min(request.get('history', 0), 100)
+        files = get_local(config, ['response', 'SENSOR', sensor])
+        response_data = []
+        try:
+            for _ in range(items):
+                response_data.append(next(files))
+        except StopIteration:
+            pass
+        response_queue.put((request, {'result': response_data}))
+    elif sensor in config['FlightRecorder']['sensors']:
+        command = config['FlightRecorder']['sensors'][sensor]['command']
+        _type = config['FlightRecorder']['sensors'][sensor]['type']
+        unit = config['FlightRecorder']['sensors'][sensor]['unit']
+        data = subprocess.check_output(command, shell=True)
+        if _type == 'json':
+            value = json.loads(data)
+        elif _type == 'float':
+            value = float(data)
+        elif _type == 'int':
+            value = int(data)
+        else:
+            value = str(data)
+        response_queue.put((request, {'result': value, 'unit': unit}))
+    elif sensor == 'history':
+        raise
+
+
+def flight_handler(config, request, response_queue, takeoff):
+    cmd = request.get('cmd', None)
+    if REQUEST_TYPES['FLIGHT'][0] in cmd:
+        uptime = get_uptime(os.path.join('/proc', cmd))
+        response_queue.put((request, {'result': uptime}))
+    elif REQUEST_TYPES['FLIGHT'][1] in cmd:
+        response_queue.put((request, {'result': (time.time() - takeoff) / 60}))
+    elif REQUEST_TYPES['FLIGHT'][2] in cmd:
+        # NOTE: AEROFLOP is always on time, no need to check.
+        response_queue.put((request, {'result': True}))
+    elif REQUEST_TYPES['FLIGHT'][3] in cmd:
+        response_queue.put((request, {'result': get_trip(config)[0]}))
+    elif REQUEST_TYPES['FLIGHT'][4] in cmd:
+        response_queue.put((request, {'result': get_trip(config)[1]}))
+    elif REQUEST_TYPES['FLIGHT'][5] in cmd:
+        response_queue.put((request, {'result': config['FlightRecorder']['carrier']}))
+    else:
+        raise
+
+
+def tower_handler(config, request, response_queue):
+    # TOWER commands must be authenticated!!
+    if check_tower_code(config, request) is False:
+        raise
+    cmd = request.get('cmd', None)
+    if REQUEST_TYPES['TOWER'][0] in cmd:
+        response_queue.put((request, {'result': 'pong', 'tstamp': time.time()}))
+    elif REQUEST_TYPES['TOWER'][1] in cmd:
+        response_queue.put(
+            (
+                request,
+                {
+                    'result': next(
+                        get_local(config, ['request', 'TOWER', REQUEST_TYPES['TOWER'][2]], request['identifier'])
+                    )['takeoff_auth_code']
+                    or '#ERR'
+                },
+            )
+        )
+    elif REQUEST_TYPES['TOWER'][2] in cmd:
+        response_queue.put((request, {'result': request.get('takeoff_auth_code', None)}))
+    elif REQUEST_TYPES['TOWER'][3] in cmd:
+        response_queue.put(
+            (
+                request,
+                {
+                    'result': next(
+                        get_local(config, ['request', 'CARRIER', REQUEST_TYPES['CARRIER'][2]], request['identifier'])
+                    )
+                    or '#ERR'
+                },
+            )
+        )
+    else:
+        raise
+
+
+def carrier_handler(config, request, response_queue, client):
+    # CARRIER commands must have a valid signature!!
+    if check_carrier_signature(config, client, request) is False:
+        raise
+    cmd = request.get('cmd', None)
+    if REQUEST_TYPES['CARRIER'][0] in cmd:
+        response_queue.put(
+            (
+                request,
+                {
+                    'object': request['object'],
+                    'result': next(get_local(config, [request['type']], request['object'])) or '#ERR',
+                },
+            )
+        )
+    elif REQUEST_TYPES['CARRIER'][1] in cmd:
+        with open(config['FlightRecorder']['backup']['name'], 'rb') as backup:
+            response_queue.put((request, {'result': backup.read()}))
+    elif REQUEST_TYPES['CARRIER'][2] in cmd:
+        response_queue.put((request, {'result': 'ACK'}))
+    else:
+        raise
+
+
+def request_handler_thread(config, client, exit_event, request_queue, response_queue):
+    takeoff = time.time()
+    while not exit_event.is_set():
+        try:
+            request = request_queue.get()
+            code = request.get('code', None)
+            if code == 'SENSOR':
+                sensor_handler(config, request, response_queue)
+            elif code == 'FLIGHT':
+                flight_handler(config, request, response_queue, takeoff)
+            elif code == 'TOWER':
+                tower_handler(config, request, response_queue)
+            elif code == 'CARRIER':
+                carrier_handler(config, request, response_queue, client)
+            else:
+                raise
+            store_local(config, request=request)
+        except:
+            traceback.print_exc()
+            response_queue.put((request, {request.get('cmd', None): '#ERR'}))
+            exit_event.wait(1)
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='High Redundancy Smart Flight Recorder')
+    parser.add_argument('--config', metavar='config.yaml', required=True, help='config file')
+    parser.add_argument('--debug', action='store_true', help='enable debug mode (not for production)')
+    parser.add_argument('--username', required=True, help='username for authenticating to the CnCTower database')
+    parser.add_argument('--password', required=True, help='password for authenticating to the CnCTower database')
+
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    config = load_config(args.config)
+    config['CnCTower']['debug'] = config['CnCTower']['debug'] or args.debug
+
+    CnCTower = config['CnCTower']
+    client = connect(CnCTower['host'], CnCTower['port'], args.username, args.password)
+
+    client[config['FlightRecorder']['registration']]['keys'].find_one_and_update(
+        {'tower_auth_code': {'$exists': True}}, {'$set': {'tower_auth_code': CnCTower['tower_security_code']}}
+    )
+
+    for _type in ('request', 'response'):
+        for code in REQUEST_TYPES:
+            for cmd in REQUEST_TYPES[code]:
+                mkdir(os.path.join(config['FlightRecorder']['local_storage']['path'], _type, code, cmd))
+
+    exit_event = threading.Event()
+    response_queue = queue.Queue()
+    request_queue = queue.Queue()
+
+    threads = (
+        threading.Thread(target=request_rcv_thread, args=(config, client, exit_event, request_queue)),
+        threading.Thread(
+            target=request_handler_thread, args=(config, client, exit_event, request_queue, response_queue)
+        ),
+        threading.Thread(target=response_snd_thread, args=(config, client, exit_event, response_queue)),
+        threading.Thread(target=store_backup_thread, args=(config, exit_event)),
+        threading.Thread(target=storage_cleaner_thread, args=(config, exit_event)),
+    )
+
+    for thread in threads:
+        thread.daemon = True
+        thread.start()
+
+    try:
+        while True:
+            time.sleep(0.5)
+    except KeyboardInterrupt:
+        pass
+
+    exit_event.set()
+    for thread in threads:
+        thread.join(0.5)
+
+    return 0
+
+
+if __name__ == '__main__':
+    exit(main())

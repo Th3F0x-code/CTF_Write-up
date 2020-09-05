@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+  lostpropertyhub:
+    build: .
+    privileged: true
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - 80:80

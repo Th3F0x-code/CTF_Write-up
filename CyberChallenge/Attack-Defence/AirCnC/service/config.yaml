@@ -1,0 +1,42 @@
+FlightRecorder:
+  fw_version: 2.0b1
+  id: 14
+  registration: flight14
+  carrier: AEROFLOP
+  sensors:
+    # TODO: we should report the proper airplane GPS position sooner or later...
+    position: 
+      command: 'echo -n "44.324640918652676,9.344469813076557"'
+      type: 'str'
+      unit: 'lat/lon'
+    core_load:
+      command: 'mpstat -P ALL -o JSON'
+      type: 'json'
+      unit: 'N/A'
+    memory:
+      command: free -m | sed -n 2p | awk '{ print $7 }'
+      type: int
+      unit: 'MiB'
+    disk:
+      command: df -BM / | sed -n 2p | awk '{ printf $4 }' | sed 's/[A-Z]//'
+      type: int
+      unit: 'GiB'
+  local_storage: 
+    path: 'storage'
+    max_items: 1024
+    interval: 10
+    console_log: true
+  backup: 
+    command: 'tar c {source:s} | zstd -T0 -qfo {dest:s}'
+    name: 'backup.tar.zst'
+    interval: 60
+
+
+CnCTower:
+  host: 10.10.100.1
+  port: 27017
+  # TODO: disable debug features in production
+  debug: true
+  tower_security_code: 'password1234'
+
+
