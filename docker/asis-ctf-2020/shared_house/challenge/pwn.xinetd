@@ -1,0 +1,14 @@
+service pwn
+{
+    disable = no
+    socket_type = stream
+    protocol    = tcp
+    wait        = no
+    user        = root
+    type        = UNLISTED
+    port        = 9003
+    bind        = 0.0.0.0
+    server      = /home/pwn/start.sh
+    rlimit_cpu	= 60
+    rlimit_as   = 1024M
+}

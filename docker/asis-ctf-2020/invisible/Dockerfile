@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:16.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -20,7 +20,6 @@ RUN chmod 550 /home/pwn/chall
 
 RUN chown -R root:pwn /home/pwn
 
-RUN service xinetd restart
+RUN ls /home/pwn -lh
 
-EXPOSE 9001
-CMD ["/etc/init.sh"]
+RUN service xinetd restart

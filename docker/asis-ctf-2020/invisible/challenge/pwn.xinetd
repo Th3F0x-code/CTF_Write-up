@@ -7,7 +7,7 @@ service pwn
 	user = pwn
 	type = UNLISTED	
 	bind = 0.0.0.0
-	port = 9001
+	port = 9002
 	server = /home/pwn/redir.sh
 	rlimit_as = 1024M
 }

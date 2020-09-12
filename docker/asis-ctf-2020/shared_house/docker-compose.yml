@@ -1,0 +1,10 @@
+version: '3'
+services:
+  shared_house:
+    build:
+      context: .
+    working_dir: /home/pwn
+    container_name: shared_house
+    ports:
+      - "9003:9003"
+    entrypoint: /etc/init.sh
