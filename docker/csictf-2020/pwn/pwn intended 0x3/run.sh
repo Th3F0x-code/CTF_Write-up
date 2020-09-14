@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -d -p 9999:9999 -it --rm pwn_intended_0x3
+docker run -d -p 9004:9004 -it --rm pwn_intended_0x3

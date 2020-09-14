@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -d -p 9999:9999 -it --rm secret-society
+docker run -d -p 9005:9005 -it --rm secret-society

@@ -18,4 +18,4 @@ RUN chmod -R 755 /ctf
 ENTRYPOINT []
 CMD ["/usr/sbin/xinetd", "-dontfork"]
 
-EXPOSE 9999
+EXPOSE 9006

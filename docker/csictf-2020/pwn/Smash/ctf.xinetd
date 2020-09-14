@@ -7,7 +7,7 @@ service ctf
     wait        = no
     user        = ctf
     type        = UNLISTED
-    port        = 9999
+    port        = 9006
     bind        = 0.0.0.0
     server      = /bin/sh
     server_args = /ctf/start.sh

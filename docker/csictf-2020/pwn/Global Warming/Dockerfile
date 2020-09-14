@@ -35,4 +35,4 @@ RUN chown -R root:ctf /home/ctf && \
 
 CMD ["/start.sh"]
 
-EXPOSE 9999
+EXPOSE 9001
