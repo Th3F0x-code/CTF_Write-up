@@ -8,5 +8,5 @@ ASIS CTF Quals 2020/Safari Park/source/debug/libJavaScriptCore.so.1
 .libc-database/
 CyberChallenge/Attack-Defence/utils
 docker/asis-ctf-2020/safari_park/distfiles/debug/libJavaScriptCore.so.1
-#docker/asis-ctf-2020/shared_house/distfiles/mount/usr/lib64
-#docker/asis-ctf-2020/shared_house/distfiles/mount/lib64
+docker/asis-ctf-2020/shared_house/distfiles/mount/usr/lib64
+docker/asis-ctf-2020/shared_house/distfiles/mount/lib64
