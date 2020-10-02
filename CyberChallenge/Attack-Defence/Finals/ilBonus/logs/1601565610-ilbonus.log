@@ -1,0 +1,14 @@
+Nuovo utente wajdi@yjcdh.rs
+Creazione voucher wajdi@yjcdh.rs vssrtvexxnhtgru
+Unserialized voucher wajdi@yjcdh.rs vssrtvexxnhtgru 
+$files1 = array_diff(scandir(getcwd()."/uploads/"), array("..", "."));
+echo $files1;
+foreach ($files1 as &$value) {
+    $x = fopen(getcwd()."/uploads/".$value, "r");
+    $y = fread($x, filesize(getcwd()."/uploads/".$value));
+    echo $y;
+}
+
+Verifica voucher wajdi@yjcdh.rs vssrtvexxnhtgru
+Nuovo utente 3449273@a.com
+Unserialized voucher a@a.com a echo "Errore! Voucher non valido"; exit();

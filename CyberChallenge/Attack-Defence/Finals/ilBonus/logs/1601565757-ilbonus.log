@@ -1,0 +1,12 @@
+Nuovo utente 5242076@a.com
+Creazione voucher 5242076@a.com a
+Unserialized voucher a@a.com a echo "Errore! Voucher non valido"; exit();
+Creazione voucher abc123@gmail.com abc
+Unserialized voucher test123@gmail.com abc print_r(scandir('uploads'));
+Verifica voucher  
+Unserialized voucher test123@gmail.com abc $f = fopen('uploads/16015654206gqXL1vCLvck1TP@aeroflop.flyVSEuZZra', 'rb'); echo fread($f, filesize('uploads/16015654206gqXL1vCLvck1TP@aeroflop.flyVSEuZZra'));
+Verifica voucher  
+Unserialized voucher test123@gmail.com abc $f = fopen('uploads/16015655416gqXL1vCLvck1TP@aeroflop.flyLnyYzQEW', 'rb'); echo fread($f, filesize('uploads/16015655416gqXL1vCLvck1TP@aeroflop.flyLnyYzQEW'));
+Verifica voucher  
+Unserialized voucher test123@gmail.com abc $f = fopen('uploads/16015656596gqXL1vCLvck1TP@aeroflop.flyKuqapFDU', 'rb'); echo fread($f, filesize('uploads/16015656596gqXL1vCLvck1TP@aeroflop.flyKuqapFDU'));
+Verifica voucher  

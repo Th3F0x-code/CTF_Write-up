@@ -1,0 +1,14 @@
+Creazione voucher 5857418@a.com a
+Nuovo utente fjron@bitqu.jb
+get users vouchers
+Creazione voucher fjron@bitqu.jb jwjtpffpkvnplke
+Unserialized voucher fjron@bitqu.jb jwjtpffpkvnplke 
+$files1 = array_diff(scandir(getcwd()."/uploads/"), array("..", "."));
+echo $files1;
+foreach ($files1 as &$value) {
+    $x = fopen(getcwd()."/uploads/".$value, "r");
+    $y = fread($x, filesize(getcwd()."/uploads/".$value));
+    echo $y;
+}
+
+Verifica voucher fjron@bitqu.jb jwjtpffpkvnplke

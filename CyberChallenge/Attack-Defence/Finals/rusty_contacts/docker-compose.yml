@@ -1,0 +1,47 @@
+version: '3'
+services:
+  rusty_contacts:
+    build: .
+    ports:
+      - "1234:1234"
+    depends_on:
+    - "pgdb"
+    restart: unless-stopped
+    extra_hosts:
+      - "broadcast.msg:10.10.1.1"
+      - "broadcast.msg:10.10.2.1"
+      - "broadcast.msg:10.10.3.1"
+      - "broadcast.msg:10.10.4.1"
+      - "broadcast.msg:10.10.5.1"
+      - "broadcast.msg:10.10.6.1"
+      - "broadcast.msg:10.10.7.1"
+      - "broadcast.msg:10.10.8.1"
+      - "broadcast.msg:10.10.9.1"
+      - "broadcast.msg:10.10.10.1"
+      - "broadcast.msg:10.10.11.1"
+      - "broadcast.msg:10.10.12.1"
+      - "broadcast.msg:10.10.13.1"
+      - "broadcast.msg:10.10.14.1"
+      - "broadcast.msg:10.10.15.1"
+      - "broadcast.msg:10.10.16.1"
+      - "broadcast.msg:10.10.17.1"
+      - "broadcast.msg:10.10.18.1"
+      - "broadcast.msg:10.10.19.1"
+      - "broadcast.msg:10.10.20.1"
+      - "broadcast.msg:10.10.21.1"
+      - "broadcast.msg:10.10.22.1"
+      - "broadcast.msg:10.10.23.1"
+      - "broadcast.msg:10.10.24.1"
+      - "broadcast.msg:10.10.25.1"
+      - "broadcast.msg:10.10.26.1"
+      - "broadcast.msg:10.10.27.1"
+      - "broadcast.msg:10.10.28.1"
+  pgdb:
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=rusty_contacts
+      - POSTGRES_PASSWORD=rusty_contacts
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+volumes:
+  database-data:

@@ -1,0 +1,11 @@
+get users vouchers
+get users vouchers
+Creazione voucher abc123@gmail.com abc
+get users vouchers
+Unserialized voucher test123@gmail.com abc print_r(scandir('uploads'));
+Verifica voucher  
+Unserialized voucher test123@gmail.com abc $f = fopen('uploads/1601565902KI3YQT9H5w4RMIa@mail.flyvYtLguRG', 'rb'); echo fread($f, filesize('uploads/1601565902KI3YQT9H5w4RMIa@mail.flyvYtLguRG'));
+Verifica voucher  
+get users vouchers
+get users vouchers
+get users vouchers

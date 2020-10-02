@@ -1,0 +1,5 @@
+get users vouchers
+get users vouchers
+Nuovo utente 2011205@a.com
+get users vouchers
+Unserialized voucher a@a.com a echo "Errore! Voucher non valido"; exit();

