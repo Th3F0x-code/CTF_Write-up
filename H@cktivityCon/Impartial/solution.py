@@ -15,7 +15,8 @@ tries = {i: letters for i in range(1, 51)}
 # flag = [''] + list('flag{partial?pass?ord?puz?le?pieces????????????????????')
 # flag{partial_password_puzzle_pieces}
 for i in range(1, len(flag)):
-    if flag[i] == '?': continue
+    if flag[i] == '?':
+        continue
     tries[i] = [flag[i]]
 
 rec = r.recvuntil(">").decode()

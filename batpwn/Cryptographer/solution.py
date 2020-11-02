@@ -15,13 +15,13 @@ ct = base64.b64decode(ct)
 
 for i in range(1000000):
     timestamp = timestamp_initial - i
-    key = md5(str(int(timestamp))).hexdigest()
+    key = md5(str(int(timestamp)).encode()).hexdigest()
     my_hexdata = key
     scale = 16
     num_of_bits = 8
     noobda = bin(int(my_hexdata, scale))[2:].zfill(num_of_bits)
     xorer = xor(ct, noobda)
-    if 'batpwn{' in xorer and '}' in xorer:
+    if b'batpwn{' in xorer and b'}' in xorer:
         print(xorer)
 
 # batpwn{cryptography_is_beautiful_art}

