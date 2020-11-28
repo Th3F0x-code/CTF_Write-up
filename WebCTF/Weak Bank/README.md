@@ -1,11 +1,11 @@
 #Weak Bank (web)
 
 ###Step 1
-Find the vulnerable parameter
+Find the vulnerable parameter  
 ![vuln](img/vuln.png)
 
 ###Step 2
-Find the correct payload (using random-agent)
+Find the correct payload (using random-agent)  
 ![payload](img/payload.png)
 
 ###Step 3
