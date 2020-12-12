@@ -1,2 +1,0 @@
-Unserialized voucher a@a.com a echo "Errore! Voucher non valido"; exit();
-get users vouchers

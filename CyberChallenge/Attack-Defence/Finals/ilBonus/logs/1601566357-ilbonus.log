@@ -1,7 +1,0 @@
-Creazione voucher abc123@gmail.com abc
-Unserialized voucher test123@gmail.com abc print_r(scandir('uploads'));
-Verifica voucher  
-Unserialized voucher test123@gmail.com abc $f = fopen('uploads/16015661366O62x907tGg4VKP@ilbonus.flyvtTvqCXl', 'rb'); echo fread($f, filesize('uploads/16015661366O62x907tGg4VKP@ilbonus.flyvtTvqCXl'));
-Verifica voucher  
-Unserialized voucher test123@gmail.com abc $f = fopen('uploads/1601566257tuFFK95Gf4HEK0o@nsa.xxxhboVCSVl', 'rb'); echo fread($f, filesize('uploads/1601566257tuFFK95Gf4HEK0o@nsa.xxxhboVCSVl'));
-Verifica voucher  
