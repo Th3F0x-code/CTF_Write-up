@@ -17,7 +17,7 @@ r = remote("localhost", 9003)
 r.recv()
 
 run('cd /tmp')
-log.info("[+] Uploading...")
+log.info("Uploading...")
 for i in range(0, len(payload), 512):
     run('echo "{}" >> b64solve'.format(payload[i:i + 512]))
 run('base64 -d b64solve > solve')
