@@ -17,3 +17,7 @@ Unbreakable AES --> C C I T { n 0 t _ r e 4 l l Y _ u s i n g _ K }
 ```
 morph --> CCIT{itz_m0rph_34C3!!!}
 ```
+```
+Pacman --> CCIT{videogame_starts_with_vi_coincidences?}
+sol --> llljjjjjllllllhjjjlhhhhjhhhhhkkkkkkkljjjjjjlllkhhh
+```
