@@ -7,7 +7,12 @@ Planet Matrix --> CCIT{THISISPLAYFAIRCIPHERYOUFOUNDIT}
 ```
 
 ```
-Dropped --> mI_{_d343_m4}s!s 
+Dropped --> CCIT{I_m4d3_4_m3ss!}
+TCIC -> CCIT
+mI_{ -> {I_m
+_d34 -> 4d3_
+3_m4 -> 4_m3
+}s!s -> ss!}
 ```
 
 ```
