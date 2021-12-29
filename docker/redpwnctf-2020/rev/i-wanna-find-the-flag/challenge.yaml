@@ -1,4 +1,4 @@
-name: i-wanna-find-the-flag
+name: i-wannaheap-find-the-flag
 description: |-
   Little Brother: Help! I can't beat this game. It's too hard. You're a pro gamer, right?
 
@@ -6,4 +6,4 @@ description: |-
 author: MrSlick
 flag: flag{gms_succs_kiddo}
 provide:
-- ./i-wanna-find-the-flag.exe
+- ./i-wannaheap-find-the-flag.exe

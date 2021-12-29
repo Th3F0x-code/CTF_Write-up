@@ -51,7 +51,7 @@ TEMPLATE = '''
  <h2 style="font-size:4rem;"> You Have Arrived! </h2>
  <br />
  <p style="font-size:2rem;"> 
- <p>Hey, wanna know how I rate some ice-cream flavours?</p>
+ <p>Hey, wannaheap know how I rate some ice-cream flavours?</p>
  <form method="GET"  action='/'>
   <select id="icecream" name="icecream">
       <option value="{{!chocolate}}">chocolate</option>
