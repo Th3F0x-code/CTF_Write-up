@@ -1,0 +1,25 @@
+.button-win {
+  background: #f1f1f1;
+  border: 1px solid #dcdcdc;
+  border-radius: 3px;
+
+  color: #555;
+/*   display: inline-block;
+ */  font-size: 10px;
+  line-height: 1.5;
+/*   margin: 0;
+ *//*   padding: 6px 12px;
+ */  text-decoration: none;
+  /*     text-shadow: 0 1px 1px #fff;
+ */
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.red{
+    background: #801919;
+    border: 1px solid #dcdcdc;
+    border-radius: 3px;
+    
+    color: rgb(132, 4, 4);
+}
