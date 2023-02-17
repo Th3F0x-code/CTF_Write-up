@@ -1,26 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void init(){
-    setbuf(stdout, NULL);
-    setbuf(stdin, NULL);
-    setbuf(stderr, NULL);
+void init() {
+  setbuf(stdout, NULL);
+  setbuf(stdin, NULL);
+  setbuf(stderr, NULL);
 }
 
-int main(){
+int main() {
 
-    int flag=0;
-    char buf[100];
-    
-    init();
+  int flag = 0;
+  char buf[100];
 
-    puts("Welcome to the baby smash challenge!");
-    puts("Enter your name: ");
-    gets(buf);
+  init();
 
-    if(flag != 0){
-        system("cat flag.txt");
-    }else{
-        puts("You are not allowed to see the flag");
-    }
+  puts("Welcome to the baby smash challenge!");
+  puts("Enter your name: ");
+  gets(buf);
+
+  if (flag != 0) {
+    system("cat flag.txt");
+  } else {
+    puts("You are not allowed to see the flag");
+  }
 }
