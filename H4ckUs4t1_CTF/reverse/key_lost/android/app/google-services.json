@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "720312795861",
+    "project_id": "ctfs-32342",
+    "storage_bucket": "ctfs-32342.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720312795861:android:b7b58c99e0df366937985c",
+        "android_client_info": {
+          "package_name": "com.flutterflow.edriveapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQDxthaKfPuJUztULHqDux_QQsgwR5KsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
