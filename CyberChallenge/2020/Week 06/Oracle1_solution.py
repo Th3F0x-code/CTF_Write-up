@@ -4,7 +4,7 @@ from pwn import *
 
 # decrypt(encrypt(FLAG) * encrypt(2)) == 2*FLAG
 
-r = remote('149.202.200.158', 7011)
+r = remote('oracle.challs.cyberchallenge.it', 9041)
 
 r.recvuntil('flag: ')
 flag_encrypted = r.recvline().decode()[0:-1]

@@ -28,7 +28,7 @@ if __name__ == '__main__':
     charset = [chr(i) for i in range(33, 127)]
     keysofar = "CCIT{s1d"
     host = "benchmark.challs.cyberchallenge.it"
-    port = 7001
+    port = 9031
     res = []
     maximum = None
 

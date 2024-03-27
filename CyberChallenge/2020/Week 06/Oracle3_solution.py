@@ -10,8 +10,8 @@ from pwn import *
 # c = m^e % n -> encrypt
 # m = c^d % n -> decrypt
 # n = ? --> 
-HOST = "oracle3.challs.cyberchallenge.it"
-PORT = 7013
+HOST = "oracle.challs.cyberchallenge.it"
+PORT = 9043
 r = remote(HOST, PORT)
 
 r.recvuntil('flag: ')

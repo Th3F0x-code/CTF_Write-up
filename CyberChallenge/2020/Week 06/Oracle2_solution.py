@@ -8,8 +8,8 @@ from pwn import *
 # e = 65537
 # c = flag_encrypted
 # n = ?
-HOST = "oracle2.challs.cyberchallenge.it"
-PORT = 7012
+HOST = "oracle.challs.cyberchallenge.it"
+PORT = 9042
 r = remote(HOST, PORT)
 
 r.recvuntil('flag: ')
